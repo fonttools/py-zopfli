@@ -7,6 +7,28 @@ Python bindings to zopfli
 """
 
 from setuptools import setup, Extension
+from setuptools.command.build_ext import build_ext
+import sys
+
+
+class custom_build_ext(build_ext):
+    """Disable language extensions not compatible with ANSI C"""
+
+    def build_extensions(self):
+        compiler_type = self.compiler.compiler_type
+        if compiler_type == "msvc":
+            for ext in self.extensions:
+                ext.extra_compile_args.append("/Za")
+        elif compiler_type in ("unix", "cygwin", "mingw32"):
+            for ext in self.extensions:
+                ext.extra_compile_args.extend([
+                    "-ansi",
+                    "-pedantic",
+                    # python uses long long (C99), so we mute the warning
+                    "-Wno-long-long",
+                ])
+        build_ext.build_extensions(self)
+
 
 setup(
     name='zopfli',
@@ -15,29 +37,25 @@ setup(
     author_email='deprince@googlealumni.com',
     description='Zopfli module for python',
     long_description=__doc__,
-    py_modules = [
-        'zopfli',
-        'zopfli.gzip',
-        'zopfli.zlib',
-        ],
-    ext_modules = [Extension('zopfli.zopfli',
-                             opts = "-O2 -W -Wall -Wextra -ansi -pedantic -lm",
-                             sources = [
-                                 'zopfli/blocksplitter.c',
-                                 'zopfli/cache.c',
-                                 'zopfli/deflate.c',
-                                 'zopfli/gzip_container.c',
-                                 'zopfli/squeeze.c',
-                                 'zopfli/hash.c',
-                                 'zopfli/katajainen.c',
-                                 'zopfli/lz77.c', 
-                                 'zopfli/tree.c',
-                                 'zopfli/util.c',
-                                 'zopfli/zlib_container.c',
-                                 'zopfli/zopflimodule.c',
-                ],
-                             libraries = ['c']
-                             )],
+    ext_modules = [
+        Extension('zopfli.zopfli',
+            sources=[
+                'zopfli/src/zopfli/blocksplitter.c',
+                'zopfli/src/zopfli/cache.c',
+                'zopfli/src/zopfli/deflate.c',
+                'zopfli/src/zopfli/gzip_container.c',
+                'zopfli/src/zopfli/squeeze.c',
+                'zopfli/src/zopfli/hash.c',
+                'zopfli/src/zopfli/katajainen.c',
+                'zopfli/src/zopfli/lz77.c',
+                'zopfli/src/zopfli/tree.c',
+                'zopfli/src/zopfli/util.c',
+                'zopfli/src/zopfli/zlib_container.c',
+                'src/zopflimodule.c',
+            ],
+        )
+    ],
+    package_dir={"": "src"},
     packages = ["zopfli"],
     zip_safe=True,
     license='ASL',
@@ -47,11 +65,10 @@ setup(
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python :: Implementation :: CPython',
         'Topic :: System :: Archiving :: Compression',
-        ],
-    scripts = [
-        ],
-    url = "https://github.com/obp/pyzopfli",
-    install_requires = [
-        ]
+    ],
+    url = "https://github.com/obp/zopfli",
+    test_suite="tests",
+    cmdclass={
+        "build_ext": custom_build_ext,
+    },
 )
-
