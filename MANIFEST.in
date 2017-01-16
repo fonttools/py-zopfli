@@ -1,0 +1,11 @@
+zopfli/blocksplitter.h
+zopfli/cache.h
+zopfli/deflate.h
+zopfli/gzip_container.h
+zopfli/hash.h
+zopfli/katajainen.h
+zopfli/lz77.h
+zopfli/squeeze.h
+zopfli/tree.h
+zopfli/util.h
+zopfli/zlib_container.h
