@@ -10,7 +10,7 @@ static PyObject *
 zopfli_compress(PyObject *self, PyObject *args, PyObject *keywrds)
 {
   const unsigned char *in;
-  unsigned char *in2, *out;
+  unsigned char *out;
   size_t insize=0; 
   size_t outsize=0;  
   Options options;
@@ -31,16 +31,23 @@ zopfli_compress(PyObject *self, PyObject *args, PyObject *keywrds)
 				   &options.blocksplittingmax,
 				   &gzip_mode))
     return NULL;
-  Py_INCREF(args);
+  if (args)
+    Py_INCREF(args);
+  if (keywrds)
+    Py_INCREF(keywrds);
   Py_BEGIN_ALLOW_THREADS
     
   if (!gzip_mode) 
-    ZlibCompress(&options, in2, insize, &out, &outsize);
+    ZlibCompress(&options, in, insize, &out, &outsize);
   else 
-    GzipCompress(&options, in2, insize, &out, &outsize);
+    GzipCompress(&options, in, insize, &out, &outsize);
   
   Py_END_ALLOW_THREADS
-  Py_DECREF(args);
+  if (args)
+    Py_DECREF(args);
+
+  if (keywrds)
+    Py_DECREF(keywrds);
   
   PyObject *returnValue;
   returnValue = Py_BuildValue("s#", out, outsize);
@@ -53,7 +60,7 @@ static char docstring[] = ""
   "zopfli.zopfli.compress applies zopfli zip or gzip compression to an obj." 
   "" \
   "zopfli.zopfli.compress("
-  "  s, **kwargs, verbose=0, numiterations=15, blocksplitting=1, "
+  "  s, **keywrds, verbose=0, numiterations=15, blocksplitting=1, "
   "  blocksplittinglast=0, blocksplittingmax=15, gzip_mode=0)"
   ""
   "If gzip_mode is set to a non-zero value, a Gzip compatbile container will "
