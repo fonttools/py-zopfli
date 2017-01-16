@@ -10,9 +10,9 @@ from setuptools import setup, Extension
 
 setup(
     name='zopfli',
-    version='0.0.3',
+    version='0.0.4',
     author='Adam DePrince',
-    author_email='adeprince@nypublicradio.org',
+    author_email='deprince@googlealumni.com',
     description='Zopfli module for python',
     long_description=__doc__,
     py_modules = [
@@ -50,7 +50,7 @@ setup(
         ],
     scripts = [
         ],
-    url = "https://github.com/wnyc/pyzopfli",
+    url = "https://github.com/obp/pyzopfli",
     install_requires = [
         ]
 )
