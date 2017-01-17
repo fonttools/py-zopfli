@@ -32,7 +32,7 @@ class custom_build_ext(build_ext):
 
 setup(
     name='zopfli',
-    version='0.0.4',
+    version='0.1.0',
     author='Adam DePrince',
     author_email='deprince@googlealumni.com',
     description='Zopfli module for python',
