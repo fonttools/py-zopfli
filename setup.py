@@ -15,19 +15,11 @@ class custom_build_ext(build_ext):
 
     def build_extensions(self):
         compiler_type = self.compiler.compiler_type
-        if compiler_type == "msvc":
+        if compiler_type in "unix":
             for ext in self.extensions:
-                ext.extra_compile_args.append("/Za")
-        elif compiler_type in ("unix", "cygwin", "mingw32"):
-            for ext in self.extensions:
-                ext.extra_compile_args.extend([
-                    "-ansi",
-                    "-pedantic",
-                    # python uses long long (C99), so we mute the warning
-                    "-Wno-long-long",
-                ])
                 # on some Unix-like systems, such as Linux, the libc math
-                # library is not linked by default
+                # library is not linked by default:
+                # https://github.com/cython/cython/issues/1585
                 ext.extra_link_args.append("-lm")
         build_ext.build_extensions(self)
 
