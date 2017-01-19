@@ -8,11 +8,10 @@ Python bindings to zopfli
 
 from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
-import sys
 
 
 class custom_build_ext(build_ext):
-    """Disable language extensions not compatible with ANSI C"""
+    """Pass platform-specific compiler/linker flags"""
 
     def build_extensions(self):
         compiler_type = self.compiler.compiler_type
@@ -27,6 +26,9 @@ class custom_build_ext(build_ext):
                     # python uses long long (C99), so we mute the warning
                     "-Wno-long-long",
                 ])
+                # on some Unix-like systems, such as Linux, the libc math
+                # library is not linked by default
+                ext.extra_link_args.append("-lm")
         build_ext.build_extensions(self)
 
 
