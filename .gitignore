@@ -6,3 +6,4 @@ dist
 *.py[cd]
 *~
 *.so
+.tox/
