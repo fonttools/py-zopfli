@@ -5,13 +5,13 @@ import unittest
 import zlib
 import zopfli.gzip
 import zopfli.zlib
-import StringIO
+from io import BytesIO
 
 class Tests(object):
-    data = unittest.__doc__
+    data = unittest.__doc__.encode('utf-8')
     def test_reversible(self):
         data = self.data 
-        self.assertEquals(self.decompress(self.compress(data)), data)
+        self.assertEqual(self.decompress(self.compress(data)), data)
 
     def test_iterations_help(self):
         data = self.data
@@ -26,7 +26,7 @@ class GzipTest(unittest.TestCase, Tests):
     compress = staticmethod(zopfli.gzip.compress)
     
     def decompress(self, s):
-        return gzip.GzipFile(fileobj=StringIO.StringIO(s)).read()
+        return gzip.GzipFile(fileobj=BytesIO(s)).read()
         
 
 if __name__ == "__main__":

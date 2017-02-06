@@ -3,5 +3,7 @@
 build
 *egg*
 dist
-*.pyc
+*.py[cd]
 *~
+*.so
+.tox/
