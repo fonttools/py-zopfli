@@ -1,4 +1,4 @@
-|Travis Build Status|
+|Travis Build Status| |Appveyor Build Status|
 
 PYZOPFLI
 ========
@@ -64,3 +64,5 @@ TODO
 
 .. |Travis Build Status| image:: https://travis-ci.org/obp/zopfli.svg
    :target: https://travis-ci.org/obp/zopfli
+.. |Appveyor Build Status| image:: https://ci.appveyor.com/api/projects/status/w81mvlbci9dsow5d/branch/master?svg=true
+   :target: https://ci.appveyor.com/project/anthrotype/zopfli/branch/master
