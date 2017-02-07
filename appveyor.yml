@@ -94,12 +94,12 @@ artifacts:
 #         Write-Output "Not deploying as this is not a tagged commit"
 #       }
 
-# deploy:
-#   # Deploy wheels on tags to GitHub Releases
-#   - provider: GitHub
-#     auth_token:
-#       secure: v7og3VSU6oko1daRt5IhhUhZwLWtb/MozxvcjmTmxVXK8etcOlCC1KkOfMyliFri
-#     draft: false
-#     prerelease: false
-#     on:
-#       appveyor_repo_tag: true
+deploy:
+  # Deploy wheels on tags to GitHub Releases
+  - provider: GitHub
+    auth_token:
+      secure: SdmzfxW36EvgcqeBwtNKV/uMZn8eS1JSVAIRDmnopnBtskb91d8zHtf5KRSA7fGc
+    draft: false
+    prerelease: false
+    on:
+      appveyor_repo_tag: true
