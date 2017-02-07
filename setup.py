@@ -9,6 +9,7 @@ Python bindings to zopfli
 from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
 from distutils.core import Command
+from io import open
 
 
 class custom_build_ext(build_ext):
@@ -44,13 +45,17 @@ class PassCommand(Command):
         pass
 
 
+with open("README.rst", "r", encoding="utf-8") as readme:
+    long_description = readme.read()
+
+
 setup(
     name='zopfli',
     version='0.1.0',
     author='Adam DePrince',
     author_email='deprince@googlealumni.com',
     description='Zopfli module for python',
-    long_description=__doc__,
+    long_description=long_description,
     ext_modules=[
         Extension('zopfli.zopfli',
             sources=[
