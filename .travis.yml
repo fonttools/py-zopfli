@@ -117,23 +117,23 @@ after_success:
         cp wheelhouse/*.whl dist;
     fi
 
-# deploy:
-#   # Deploy on tags to GitHub Releases
-#   - provider: releases
-#     api_key:
-#       secure: DjEjgnbxchBCUB2DFH0jtSee7v3vCmWXCkQrkYyULAlZkEKcLDRVRZoDg1BW/q2aCuAz8vnG4lgVbOwWhT8JTSVtbuVnT2W2chwSmBAyhtC3QVxdMQdIEVjJvU3Ci6QnBQiP9ibi4vjua8ORjWD/CoNm5v/ME0NJjeidDhPJdAg3HAvj6JnocI5alL4LTrmoDRL9ghuAw23uHFcGZ89QOF6cEs5vlD4EJ+zIMssyR3kQsY6bi96tQuo4vpfo+Gd+ygT5k5RrWkuj5Fm7A5yq0wkgxsLdbuwlFtnFl/yahG8c2bWy5iwkEcvPlsaHs9+nwR+hFzqeGDUPyNPHYTPNVyirDk+MNoXYoC08VkzUK3HNC3N/MmZxebG/aEqK0CfJopVzHdlgMQ7Tm00fYzrhazlijrRmttU5oOnuF1glUnScaR0y7zsv3oNg/4z043BbAVclcQvvVu8Fw9aNIjusYHo1MLBN+nHbZBjkIUvSlYoj7E/2kDPsIFt8E8On15a/SIrmXj1DfURnHOYeBhl059h+TTpo2aq4KAn5DnpAcwZHcxgIKdeIriCC6GCYhq3yuGNzusuCxOeEAKU8XijgST2BB2Z93OiDAPNhTJ4SjzvRYTvS15wBGviVhWmbElZlqTZFPaOP8kI+JPnYaNvzdIKBaj5EG1z3ym8XjpTkqLc=
-#     file_glob: true
-#     file: "dist/*"
-#     skip_cleanup: true
-#     on:
-#       repo: anthrotype/obp-zopfli
-#       tags: true
-#       condition: $SKIP_DEPLOY != true
+deploy:
+  # Deploy on tags to GitHub Releases
+  - provider: releases
+    api_key:
+      secure: LNXMnptmp5UkjDfhg7K0zmEr2aJbrguuzzY3NAoQXKyJyKdy4WOMVei+J2WsZfz5j5mWjKOOyaS3u9W9s1xhF1dTOtoxtJv6fvFbiTkaELM7z6kOLPuJYYf3lrxypN2ekGpjDwBaFhh/Av7J7LhR4zfEnXvk3ZZZ/3zURWmVHzvKLzMdwwowryhGZ+UHFB1raAg9IWQi1G5E6ieCRb9/BEqQ70vZvyIBM385Rb+CqMpLMlbig7qKWyJuS0n9ya1RCl5nd4ceI65ZY93C4XkiZB6h9yJLGhpRDfLp++vzk6gAWnwZMSF149lsMA/MoHhF4paIjqYxmxLEmtOH1uKOZo/nwDcGByuDfMKCgD8tKijeO1pS+6YXAuNF2yIVL0SHGzqTeT5XHTDS/jrxed+HLUP9tg5Be5mMDpDHcKU98aU534AD5DaSJ2gisYaguK8svxtfOSNpcr+eK7WOLvbmbrlExnPwSnvwn6wIsGbv194mUqRpZyE7utBvBDC/KOAVJWW2CfmHYrgfoAcNQfWC10fZPzOFg1jHDh7jAg3sIXbEy1ZMlxEretpTtKk4pYDfj8MUZLFzaUppAUwqyhbbNIyAh8VTUxpJVw9eflWI6REHYb97u0FdlmugioHI+ggYMwfNcUsm0B3Qb8Fm+3YvcJ50omiyBJMsaESPEInv15Q=
+    file_glob: true
+    file: "dist/*"
+    skip_cleanup: true
+    on:
+      repo: obp/zopfli
+      tags: true
+      condition: $SKIP_DEPLOY != true
 #   # Deploy on tags to PyPI
 #   - provider: pypi
 #     server: https://upload.pypi.org/legacy/
 #     on:
-#       repo: anthrotype/obp-zopfli
+#       repo: obp/zopfli
 #       tags: true
 #       condition: $SKIP_DEPLOY != true
 #     user: anthrotype
