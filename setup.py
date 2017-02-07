@@ -51,7 +51,7 @@ setup(
     author_email='deprince@googlealumni.com',
     description='Zopfli module for python',
     long_description=__doc__,
-    ext_modules = [
+    ext_modules=[
         Extension('zopfli.zopfli',
             sources=[
                 'zopfli/src/zopfli/blocksplitter.c',
@@ -70,7 +70,7 @@ setup(
         )
     ],
     package_dir={"": "src"},
-    packages = ["zopfli"],
+    packages=["zopfli"],
     zip_safe=True,
     license='ASL',
     include_package_data=True,
@@ -80,7 +80,7 @@ setup(
         'Programming Language :: Python :: Implementation :: CPython',
         'Topic :: System :: Archiving :: Compression',
     ],
-    url = "https://github.com/obp/zopfli",
+    url="https://github.com/obp/zopfli",
     test_suite="tests",
     cmdclass={
         "build_ext": custom_build_ext,
