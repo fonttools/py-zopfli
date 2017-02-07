@@ -1,3 +1,5 @@
+|Travis Build Status|
+
 PYZOPFLI
 ========
 
@@ -59,3 +61,6 @@ TODO
 
 -  Monkey patch zlib and gzip so code with an overly tight binding can
    be easily modified to use zopfli.
+
+.. |Travis Build Status| image:: https://travis-ci.org/obp/zopfli.svg
+   :target: https://travis-ci.org/obp/zopfli
