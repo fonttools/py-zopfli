@@ -129,15 +129,15 @@ deploy:
       repo: obp/zopfli
       tags: true
       condition: $SKIP_DEPLOY != true
-#   # Deploy on tags to PyPI
-#   - provider: pypi
-#     server: https://upload.pypi.org/legacy/
-#     on:
-#       repo: obp/zopfli
-#       tags: true
-#       condition: $SKIP_DEPLOY != true
-#     user: anthrotype
-#     password:
-#       secure: O7n0blUsuJRHOVMRnIntntwQfpwvrUdDJOYU6MThNAP7VmoZCClHcrRa72zYy/rloEfvLoftdqRgWMvany5rETfb5l//zlKlRxYUnE8UMrRm/b6Q10OWH1PDuLDZ7o1Q97gFaECfoW8s1fygKF41RxiwBlFM9JdWgIaT3S5PNKO16sj50oFs6/Xd4MOeYhVPwj3SBL7Rn0cs2cLXvcUfMiWJ0czl90p9vQpjr5y9OzG87/kSr5Xo7CxoSJg0OHoQNPoGAAuSE6e/Lsg9fVSmqmYcYS/YsCuWb/3UiWrW34JPh5IasK8N0FBJ18j4KPDI5hywKiF8aqSFcvC0QvpBcnx/gSQtOObmnayHnyaJhfnJUcBB2kF0FSO+x4dZqiqtoy08IuIJMiYAgxFtVXXiIGFS4esFaJLQq4n4KhpXXEVn4LWpiBTt5oAvinygttMO/BlirPaaSmgYOf0tZwzQZiv79i6Q+ag6Y5/njYLfZKi23I9YC8qtZUpBoaSpgGeUki1KAChM7EaU/sFQEAEdGSxCIjPzZtE32FokIugZe/q/ov5hINLpy9W0Cb9M7Ma7EqAFFR8VabY6cYupJgDsSwcIgNQZD2CgXe2J83XmNMvkbULuRtGktiXNtNp6eL1OTYLvb/fS+Dp9Nw0VNuBNJFcbHCVN1h0+yfA9mAFTYSI=
-#     skip_cleanup: true
-#     distributions: pass
+  # Deploy on tags to PyPI
+  - provider: pypi
+    server: https://upload.pypi.org/legacy/
+    on:
+      repo: obp/zopfli
+      tags: true
+      condition: $SKIP_DEPLOY != true
+    user: anthrotype
+    password:
+      secure: uApjdVYBKs+Ifi98bkUpNxbFVru2RtlorrzBXxTOo+4Ke8Q8mVxkW2Vi1aQ2NJO2BRg2WxBBATEGNdUBPKkWvwUZieWWxVDV9kydzYozOgV410RaXdjOJwnubdM0gfkixobjxGplnwdP+6q81WEJNuc9xfajYhCKtrfHYlLcASsFS++GB3Mnu6rkZmOewqjI+XUn5g4dYgu0jhSVCVoVK79rKJZvVMrh9/z3hMYi2UlA3XG65hi5ouvON4eaMSusLbXz256ADn+EbQrKXQYVfUcihkrmOQFEdOs/HVFN4duwCfs6xV0hdjCit9ML5cmGBcBu/asU7kdkZEPY1DPzN9ocqJqHkVcXngmRNv8S2OgK02ccsg51geZ5V2hDpXrwFHZUxaAmQ8oXWTGajR8HoORtSkOw4bNSpUQs0sQiS06vQRT1O7pneXpwSUiNiychgTjYsFRqyIm7IgAZim87CNjL06+G8eGWJFSld6ATrkPyOJV09glxsf3p26U2Kk7TeAOpHn6rYLzplnlzG4JFtUvDIsszZjcMSZMsUTcuyGMbPIexWZ+5gbsq5DDhuUfEeDrmM+bTgHGgpMRjUbpK1cO0OuF2nrXls7EYviLO4A5d9f9W+IPw9bapDwwzSmM2+G64Mlz+7kOAd+YgpqLb79MtB5zr8PBgnqU8ZLV5IWs=
+    skip_cleanup: true
+    distributions: pass
