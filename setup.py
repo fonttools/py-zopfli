@@ -51,7 +51,7 @@ with open("README.rst", "r", encoding="utf-8") as readme:
 
 setup(
     name='zopfli',
-    version='0.1.0.post1',
+    version='0.1.1',
     author='Adam DePrince',
     author_email='deprince@googlealumni.com',
     description='Zopfli module for python',
