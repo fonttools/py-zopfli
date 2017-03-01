@@ -1,1 +1,11 @@
+include COPYING
+include tox.ini
+
+include zopfli/README
+include zopfli/Makefile
+include zopfli/COPYING
+include zopfli/CONTRIBUTORS
+include zopfli/CONTRIBUTING.md
 recursive-include zopfli/src/zopfli *.h
+
+recursive-include tests *.py
