@@ -9,9 +9,7 @@ cPython bindings for
 USAGE
 =====
 
-pyzopfli is a straight forward wrapper around
-`zopfli<http://googledevelopers.blogspot.com/2013/02/compress-data-more-densely-with-zopfli.html>`__'s
-ZlibCompress method.
+pyzopfli is a straight forward wrapper around zopfli's ZlibCompress method.
 
 ::
 
