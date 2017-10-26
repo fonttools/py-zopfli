@@ -87,7 +87,7 @@ setup(
         'Programming Language :: Python :: Implementation :: CPython',
         'Topic :: System :: Archiving :: Compression',
     ],
-    url="https://github.com/obp/zopfli",
+    url="https://github.com/obp/py-zopfli",
     test_suite="tests",
     cmdclass={
         "build_ext": custom_build_ext,
