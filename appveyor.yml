@@ -5,8 +5,8 @@ environment:
     # See: http://stackoverflow.com/a/13751649/163740
     CMD_IN_ENV: "cmd /E:ON /V:ON /C %APPVEYOR_BUILD_FOLDER%\\multibuild\\ci\\appveyor\\windows_sdk.cmd"
     # PyPI username and encrypted password
-    PYPI_USER: anthrotype
-    PYPI_PSWD:
+    TWINE_USERNAME: anthrotype
+    TWINE_PASSWORD:
       secure: i3kDZLpYJy081xLBTe0AjA==
 
   matrix:
@@ -89,7 +89,9 @@ on_success:
       if($env:APPVEYOR_REPO_TAG -eq 'true') {
         Write-Output ("Deploying " + $env:APPVEYOR_REPO_TAG_NAME + " to PyPI...")
         pip install --upgrade twine
-        twine upload -u $env:PYPI_USER -p $env:PYPI_PSWD dist\*.whl
+        # If powershell ever sees anything on stderr it thinks it's a fail.
+        # So we use cmd to redirect stderr to stdout before PS can see it.
+        cmd /c 'twine upload dist\*.whl 2>&1'
       } else {
         Write-Output "Not deploying as this is not a tagged commit"
       }
