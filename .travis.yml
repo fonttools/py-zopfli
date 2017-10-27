@@ -126,14 +126,14 @@ deploy:
     file: "dist/*"
     skip_cleanup: true
     on:
-      repo: obp/zopfli
+      repo: obp/py-zopfli
       tags: true
       condition: $SKIP_DEPLOY != true
   # Deploy on tags to PyPI
   - provider: pypi
     server: https://upload.pypi.org/legacy/
     on:
-      repo: obp/zopfli
+      repo: obp/py-zopfli
       tags: true
       condition: $SKIP_DEPLOY != true
     user: anthrotype
