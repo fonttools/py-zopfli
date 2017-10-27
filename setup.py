@@ -54,6 +54,8 @@ setup(
     version='0.1.1',
     author='Adam DePrince',
     author_email='deprince@googlealumni.com',
+    maintainer='Cosimo Lupo',
+    maintainer_email='cosimo@anthrotype.com',
     description='Zopfli module for python',
     long_description=long_description,
     ext_modules=[
