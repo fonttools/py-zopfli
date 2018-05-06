@@ -18,7 +18,7 @@ pyzopfli is a straight forward wrapper around zopfli's ZlibCompress method.
     s = 'Hello World'
     print decompress(compress(s))
 
-pyzopfli also wrapps GzipCompress, but the API point does not try to
+pyzopfli also wraps GzipCompress, but the API point does not try to
 mimic the gzip module.
 
 ::
@@ -29,7 +29,7 @@ mimic the gzip module.
     print GzipFile(fileobj=StringIO(compress("Hello World!"))).read()
 
 Both zopfli.zlib.compress and zopfli.gzip.compress support the following
-keyword arguements. All values should be integers; boolean parmaters are
+keyword arguments. All values should be integers; boolean parmaters are
 treated as expected, 0 and >0 as false and true.
 
 -  *verbose* dumps zopfli debugging data to stderr
