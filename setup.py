@@ -8,7 +8,6 @@ Python bindings to zopfli
 
 from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
-from distutils.core import Command
 from io import open
 
 
@@ -24,25 +23,6 @@ class custom_build_ext(build_ext):
                 # https://github.com/cython/cython/issues/1585
                 ext.extra_link_args.append("-lm")
         build_ext.build_extensions(self)
-
-
-class PassCommand(Command):
-    """ This is a pass-through command to force Travis `dpl` tool skip
-    re-bulding the wheel packages, and simply upload to PyPI the packages
-    previously compiled by the 'manylinux1' Docker container.
-    """
-
-    description = "do nothing"
-    user_options = []
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
-    def run(self):
-        pass
 
 
 with open("README.rst", "r", encoding="utf-8") as readme:
@@ -93,6 +73,5 @@ setup(
     test_suite="tests",
     cmdclass={
         "build_ext": custom_build_ext,
-        "pass": PassCommand,
     },
 )

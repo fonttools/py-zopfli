@@ -8,6 +8,9 @@ env:
     - TEST_DEPENDS="tox"
     - PLAT=x86_64
     - UNICODE_WIDTH=32
+    # encrypted credentials for uploading packages to PyPI using twine
+    - TWINE_USERNAME="anthrotype"
+    - secure: PJuCmlDuwnojiw3QuDhfNAaU4f/yeJcEcRzJAudA66bwZK7hvxV7Tiy9A17Bm6yO0HbJmmyjsIr8h2e7/PyY6QCaV8RqcMDkQ0UraU16pRsihp0giVXJoWscj2sCP4cNDOBVwSaGAX8yZ2OONc5srESywghzcy8xmgw6O+XFqx4=
 
 language: python
 # The travis Python version is unrelated to the version we build and test
@@ -117,15 +120,18 @@ script:
 
 after_success:
   # if tagged commit, create the source distribution for the deploy stage, and
-  # copy the wheel to dist/ where we can upload both in one go to PyPI/Github
-  - >-
-    if [ -n "$TRAVIS_TAG" ] && [ "$SKIP_DEPLOY" != true ]; then
+  # copy the wheel to dist/ where we can upload both to PyPI/Github
+  - |
+    if [ -n "$TRAVIS_TAG" ] && [ "$TRAVIS_REPO_SLUG" == "obp/py-zopfli" ] && [ "$SKIP_DEPLOY" != true ]; then
+        mkdir -p dist
+        cp wheelhouse/*.whl dist
+        pip install --upgrade twine
+        twine upload dist/*.whl
         if [ "$BUILD_SDIST" == true ]; then
-            pip install --upgrade setuptools;
-            python setup.py sdist;
-        fi;
-        mkdir -p dist;
-        cp wheelhouse/*.whl dist;
+            pip install --upgrade setuptools
+            python setup.py sdist
+            twine upload dist/*.zip
+        fi
     fi
 
 deploy:
@@ -140,15 +146,3 @@ deploy:
       repo: obp/py-zopfli
       tags: true
       condition: $SKIP_DEPLOY != true
-  # Deploy on tags to PyPI
-  - provider: pypi
-    server: https://upload.pypi.org/legacy/
-    on:
-      repo: obp/py-zopfli
-      tags: true
-      condition: $SKIP_DEPLOY != true
-    user: anthrotype
-    password:
-      secure: uApjdVYBKs+Ifi98bkUpNxbFVru2RtlorrzBXxTOo+4Ke8Q8mVxkW2Vi1aQ2NJO2BRg2WxBBATEGNdUBPKkWvwUZieWWxVDV9kydzYozOgV410RaXdjOJwnubdM0gfkixobjxGplnwdP+6q81WEJNuc9xfajYhCKtrfHYlLcASsFS++GB3Mnu6rkZmOewqjI+XUn5g4dYgu0jhSVCVoVK79rKJZvVMrh9/z3hMYi2UlA3XG65hi5ouvON4eaMSusLbXz256ADn+EbQrKXQYVfUcihkrmOQFEdOs/HVFN4duwCfs6xV0hdjCit9ML5cmGBcBu/asU7kdkZEPY1DPzN9ocqJqHkVcXngmRNv8S2OgK02ccsg51geZ5V2hDpXrwFHZUxaAmQ8oXWTGajR8HoORtSkOw4bNSpUQs0sQiS06vQRT1O7pneXpwSUiNiychgTjYsFRqyIm7IgAZim87CNjL06+G8eGWJFSld6ATrkPyOJV09glxsf3p26U2Kk7TeAOpHn6rYLzplnlzG4JFtUvDIsszZjcMSZMsUTcuyGMbPIexWZ+5gbsq5DDhuUfEeDrmM+bTgHGgpMRjUbpK1cO0OuF2nrXls7EYviLO4A5d9f9W+IPw9bapDwwzSmM2+G64Mlz+7kOAd+YgpqLb79MtB5zr8PBgnqU8ZLV5IWs=
-    skip_cleanup: true
-    distributions: pass

@@ -4,7 +4,7 @@ environment:
     # PyPI username and encrypted password
     TWINE_USERNAME: anthrotype
     TWINE_PASSWORD:
-      secure: i3kDZLpYJy081xLBTe0AjA==
+      secure: 9zLozI+1vEqeYX/OmuDcow==
 
   matrix:
 
