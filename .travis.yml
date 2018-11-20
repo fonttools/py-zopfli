@@ -10,7 +10,7 @@ env:
     - UNICODE_WIDTH=32
     # encrypted credentials for uploading packages to PyPI using twine
     - TWINE_USERNAME="anthrotype"
-    - secure: PJuCmlDuwnojiw3QuDhfNAaU4f/yeJcEcRzJAudA66bwZK7hvxV7Tiy9A17Bm6yO0HbJmmyjsIr8h2e7/PyY6QCaV8RqcMDkQ0UraU16pRsihp0giVXJoWscj2sCP4cNDOBVwSaGAX8yZ2OONc5srESywghzcy8xmgw6O+XFqx4=
+    - secure: UHQZfyYH2TyY35Nhg78TzgKr4lfTYkPYsglM5PejBdALx/pukcyHkBH5qXYlfppYYG1bpVQlsZ1cZ7fBJS9mdNxrEpcWAHybCKSRFkCKark8ansQw68mE7pQdtMMgtj26+MeJZnSko9bg8yp8J8odJju9vxYOQpRzI8WgSeXh9hK6glgAV4QU3Q61zJcOaximPnuZ5jp1CN/l5DFv3NZoZvXZOocqEybjSinyhXsTWIr311GUnfoJEG1t88z7aEpi/vzhlYGvC14d3XXhGcAHPi5qkWuROY/Qb+BwZJb5KryxPo7+Hm8Kph0NcsMxFCDl2MpruxVAtNiQ4qcibNzF0LIREqyYTvGvrafNPp+eDE1DKqoDRSiX4BFlhNZXa3Z3rI0xfRSwBNO2Eb7H/v7+D/BkeP5WgMuA8EEcHELmHbJg0Y9xwkTqLEqy3Mi+PgGuBKOOq8wy9binsN4OmZwhNKNV908jl16ErDzoDm+B1iQbtJbkzmQOMLNo7lPQ3p55ZYqfIqXYT9/yGa4do+eTyRLx8bmUqzN8tFA6iXuxabAMpRuOjhUUglM5K6iaH8iqLapkUCLbleQvG39eZGoPCfukIOLLGf7aNaCa1ZWzOKz6+g8oQJyGhGKEj3apd8+uvvjh1u3Jzi+9ChN0Yq4wb9X4EU1p1xS5Wd/76NFDgk=
 
 language: python
 # The travis Python version is unrelated to the version we build and test
