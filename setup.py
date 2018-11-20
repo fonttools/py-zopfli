@@ -31,7 +31,7 @@ with open("README.rst", "r", encoding="utf-8") as readme:
 
 setup(
     name='zopfli',
-    version='0.1.4',
+    version='0.1.5',
     author='Adam DePrince',
     author_email='deprince@googlealumni.com',
     maintainer='Cosimo Lupo',
