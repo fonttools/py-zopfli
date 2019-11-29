@@ -88,34 +88,15 @@ matrix:
         - MB_PYTHON_VERSION=3.8
 
 before_install:
-  - >-
-    if [ -n "$MB_PYTHON_VERSION" ]; then
-        source multibuild/common_utils.sh;
-        source multibuild/travis_steps.sh;
-        before_install;
-    elif [ -n "$PYPY_VERSION" ]; then
-        deactivate
-        export PYENV_ROOT="$(pwd)/.pyenv";
-        git clone --depth 1 https://github.com/yyuu/pyenv.git "$PYENV_ROOT"
-        export PATH="$PYENV_ROOT/bin:$PATH";
-        eval "$(pyenv init -)";
-        pyenv install pypy-$PYPY_VERSION;
-        pyenv global pypy-$PYPY_VERSION;
-        pyenv rehash;
-        pypy --version;
-        pip install $TEST_DEPENDS;
-    fi
+  - source multibuild/common_utils.sh
+  - source multibuild/travis_steps.sh
+  - before_install
 
 install:
-  - if [ -n "$MB_PYTHON_VERSION" ]; then build_wheel $REPO_DIR $PLAT; fi
+  - build_wheel $REPO_DIR $PLAT
 
 script:
-  - >-
-    if [ -n "$MB_PYTHON_VERSION" ]; then
-        install_run $PLAT;
-    else
-        tox;
-    fi
+  - install_run $PLAT
 
 after_success:
   # if tagged commit, create the source distribution for the deploy stage, and
@@ -132,16 +113,3 @@ after_success:
             twine upload dist/*.zip
         fi
     fi
-
-deploy:
-  # Deploy on tags to GitHub Releases
-  - provider: releases
-    api_key:
-      secure: LNXMnptmp5UkjDfhg7K0zmEr2aJbrguuzzY3NAoQXKyJyKdy4WOMVei+J2WsZfz5j5mWjKOOyaS3u9W9s1xhF1dTOtoxtJv6fvFbiTkaELM7z6kOLPuJYYf3lrxypN2ekGpjDwBaFhh/Av7J7LhR4zfEnXvk3ZZZ/3zURWmVHzvKLzMdwwowryhGZ+UHFB1raAg9IWQi1G5E6ieCRb9/BEqQ70vZvyIBM385Rb+CqMpLMlbig7qKWyJuS0n9ya1RCl5nd4ceI65ZY93C4XkiZB6h9yJLGhpRDfLp++vzk6gAWnwZMSF149lsMA/MoHhF4paIjqYxmxLEmtOH1uKOZo/nwDcGByuDfMKCgD8tKijeO1pS+6YXAuNF2yIVL0SHGzqTeT5XHTDS/jrxed+HLUP9tg5Be5mMDpDHcKU98aU534AD5DaSJ2gisYaguK8svxtfOSNpcr+eK7WOLvbmbrlExnPwSnvwn6wIsGbv194mUqRpZyE7utBvBDC/KOAVJWW2CfmHYrgfoAcNQfWC10fZPzOFg1jHDh7jAg3sIXbEy1ZMlxEretpTtKk4pYDfj8MUZLFzaUppAUwqyhbbNIyAh8VTUxpJVw9eflWI6REHYb97u0FdlmugioHI+ggYMwfNcUsm0B3Qb8Fm+3YvcJ50omiyBJMsaESPEInv15Q=
-    file_glob: true
-    file: "dist/*"
-    skip_cleanup: true
-    on:
-      repo: obp/py-zopfli
-      tags: true
-      condition: $SKIP_DEPLOY != true
