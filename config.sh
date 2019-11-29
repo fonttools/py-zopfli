@@ -31,6 +31,9 @@ function run_tests {
         3.7)
            TOXENV=py37
            ;;
+        3.8)
+           TOXENV=py38
+           ;;
     esac
 
     # Installed wheel inside the tox environment and runs the tests on it
