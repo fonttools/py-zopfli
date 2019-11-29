@@ -48,8 +48,8 @@ environment:
       PYTHON_VERSION: "3.8.x"
       PYTHON_ARCH: "64"
 
-matrix:
-  fast_finish: true
+# matrix:
+#   fast_finish: true
 
 install:
   # Fetch submodules
