@@ -12,13 +12,15 @@ environment:
 
   matrix:
 
-    - PYTHON: "C:\\Python27"
-      PYTHON_VERSION: "2.7.x"
-      PYTHON_ARCH: "32"
-
-    - PYTHON: "C:\\Python27-x64"
-      PYTHON_VERSION: "2.7.x"
-      PYTHON_ARCH: "64"
+    # Building Python 2.7 wheels fails on VS2019 image with:
+    # "error: Microsoft Visual C++ 9.0 is required"
+    # - PYTHON: "C:\\Python27"
+    #   PYTHON_VERSION: "2.7.x"
+    #   PYTHON_ARCH: "32"
+    #
+    # - PYTHON: "C:\\Python27-x64"
+    #   PYTHON_VERSION: "2.7.x"
+    #   PYTHON_ARCH: "64"
 
     - PYTHON: "C:\\Python36"
       PYTHON_VERSION: "3.6.x"
