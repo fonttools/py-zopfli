@@ -2,7 +2,13 @@
 #include <Python.h>
 #include <bytesobject.h>
 #include <stdlib.h>
-#include "../zopfli/src/zopfli/zopfli.h"
+
+#ifdef SYSTEM_ZOPFLI
+#define ZOPFLI_H <zopfli.h>
+#else
+#define ZOPFLI_H "../zopfli/src/zopfli/zopfli.h"
+#endif
+#include ZOPFLI_H
 
 #if PY_MAJOR_VERSION >= 3
 #define PyInt_Check PyLong_Check
