@@ -52,6 +52,7 @@ setup(
                 'zopfli/src/zopfli/tree.c',
                 'zopfli/src/zopfli/util.c',
                 'zopfli/src/zopfli/zlib_container.c',
+                'zopfli/src/zopfli/zopfli_lib.c',
                 'src/zopflimodule.c',
             ],
         )
