@@ -2,9 +2,13 @@
 #include <Python.h>
 #include <bytesobject.h>
 #include <stdlib.h>
-#include "../zopfli/src/zopfli/zlib_container.h"
-#include "../zopfli/src/zopfli/gzip_container.h"
-#include "../zopfli/src/zopfli/util.h"
+
+#ifdef SYSTEM_ZOPFLI
+#define ZOPFLI_H <zopfli.h>
+#else
+#define ZOPFLI_H "../zopfli/src/zopfli/zopfli.h"
+#endif
+#include ZOPFLI_H
 
 #if PY_MAJOR_VERSION >= 3
 #define PyInt_Check PyLong_Check
@@ -43,11 +47,9 @@ zopfli_compress(PyObject *self, PyObject *args, PyObject *keywrds)
   if (keywrds)
     Py_INCREF(keywrds);
   Py_BEGIN_ALLOW_THREADS
-    
-  if (!gzip_mode) 
-    ZopfliZlibCompress(&options, in, insize, &out, &outsize);
-  else 
-    ZopfliGzipCompress(&options, in, insize, &out, &outsize);
+
+  ZopfliFormat output_type = gzip_mode ? ZOPFLI_FORMAT_GZIP : ZOPFLI_FORMAT_ZLIB;
+  ZopfliCompress(&options, output_type, in, insize, &out, &outsize);
   
   Py_END_ALLOW_THREADS
   if (args)
