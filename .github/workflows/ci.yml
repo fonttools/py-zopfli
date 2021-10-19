@@ -31,10 +31,10 @@ jobs:
     - name: Build sdist
       run: python setup.py sdist
     - name: Check metadata
-      run: twine check dist/*.tar.gz
+      run: twine check dist/*.zip
     - uses: actions/upload-artifact@v2
       with:
-        path: dist/*.tar.gz
+        path: dist/*.zip
 
   build_wheels:
     name: ${{ matrix.type }} ${{ matrix.arch }} on ${{ matrix.os }}
