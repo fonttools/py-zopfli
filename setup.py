@@ -59,7 +59,7 @@ else:
 
 setup(
     name='zopfli',
-    version='0.1.8',
+    use_scm_version={"write_to": "src/zopfli/_version.py"},
     author='Adam DePrince',
     author_email='deprince@googlealumni.com',
     maintainer='Cosimo Lupo',
@@ -87,4 +87,5 @@ setup(
     cmdclass={
         "build_ext": custom_build_ext,
     },
+    setup_requires=["setuptools_scm"],
 )

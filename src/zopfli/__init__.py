@@ -24,3 +24,8 @@ Args:
   unlimited, but this can give extreme results that hurt compression
   on some files). Default value: 15.
 """
+
+try:
+    from ._version import version as __version__  # type: ignore
+except ImportError:
+    __version__ = "0.0.0+unknown"
