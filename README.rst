@@ -1,4 +1,4 @@
-|Travis Build Status| |Appveyor Build Status|
+|Build Status|
 
 PYZOPFLI
 ========
@@ -60,7 +60,5 @@ TODO
 -  Monkey patch zlib and gzip so code with an overly tight binding can
    be easily modified to use zopfli.
 
-.. |Travis Build Status| image:: https://travis-ci.org/obp/py-zopfli.svg
-   :target: https://travis-ci.org/obp/py-zopfli
-.. |Appveyor Build Status| image:: https://ci.appveyor.com/api/projects/status/w81mvlbci9dsow5d/branch/master?svg=true
-   :target: https://ci.appveyor.com/project/anthrotype/zopfli/branch/master
+.. |Build Status| image:: https://github.com/fonttools/py-zopfli/actions/workflows/ci.yml/badge.svg?branch=master
+   :target: https://github.com/fonttools/py-zopfli/actions/workflows/ci.yml
