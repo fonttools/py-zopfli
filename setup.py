@@ -66,6 +66,7 @@ setup(
     maintainer_email='cosimo@anthrotype.com',
     description='Zopfli module for python',
     long_description=long_description,
+    python_requires=">=3.6",
     ext_modules=[
         Extension('zopfli.zopfli', **zopfli_ext_kwargs)
     ],
