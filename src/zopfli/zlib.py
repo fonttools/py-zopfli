@@ -63,15 +63,15 @@ MASTER_BLOCK_SIZE = 20000000
 
 class compressobj(object):
     def __init__(self, level=Z_DEFAULT_COMPRESSION, method=DEFLATED,
-                 windowBits=MAX_WBITS, memlevel=DEF_MEM_LEVEL,
+                 wbits=MAX_WBITS, memlevel=DEF_MEM_LEVEL,
                  strategy=Z_DEFAULT_STRATEGY, **kwargs):
         '''simulate zlib deflateInit2
         level - compression level
         method - compression method, only DEFLATED supported
-        windowBits - should be in the range 8..15, practically ignored
-                     can also be -8..-15 for raw deflate
-                     zlib also have gz with "Add 16 to windowBit"
-                                         - not implemented here
+        wbits - should be in the range 8..15, practically ignored
+                can also be -8..-15 for raw deflate
+                zlib also have gz with "Add 16 to windowBit"
+                                    - not implemented here
         memlevel - originally specifies how much memory should be allocated
                     zopfli - ignored
         strategy - originally is used to tune the compression algorithm
@@ -79,8 +79,8 @@ class compressobj(object):
         '''
         if method != DEFLATED:
             raise error
-        self.raw = windowBits < 0
-        if abs(windowBits) > MAX_WBITS or abs(windowBits) < 5:
+        self.raw = wbits < 0
+        if abs(wbits) > MAX_WBITS or abs(wbits) < 5:
             raise ValueError
         self.crc = None
         self.buf = bytearray()
@@ -88,7 +88,6 @@ class compressobj(object):
         self.closed = False
         self.bit = 0
         self.first = True
-        kwargs.pop('wbits', 0)  # not used
         kwargs.pop('zdict', 0)  # not used
         kwargs.pop('memLevel', 0)  # not used
         self.opt = kwargs
