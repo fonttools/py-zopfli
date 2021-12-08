@@ -79,8 +79,8 @@ def bitseq2int(data):
 
 class compressobj(object):
     def __init__(self, level=Z_DEFAULT_COMPRESSION, method=DEFLATED,
-                 wbits=MAX_WBITS, memlevel=DEF_MEM_LEVEL,
-                 strategy=Z_DEFAULT_STRATEGY, **kwargs):
+                 wbits=MAX_WBITS, memLevel=DEF_MEM_LEVEL,
+                 strategy=Z_DEFAULT_STRATEGY, zdict=None, **kwargs):
         '''simulate zlib deflateInit2
         level - compression level
         method - compression method, only DEFLATED supported
@@ -88,26 +88,34 @@ class compressobj(object):
                 can also be -8..-15 for raw deflate
                 zlib also have gz with "Add 16 to windowBit"
                                     - not implemented here
-        memlevel - originally specifies how much memory should be allocated
+        memLevel - originally specifies how much memory should be allocated
                     zopfli - ignored
         strategy - originally is used to tune the compression algorithm
                     zopfli - ignored
+        zdict - a predefined compression dictionary, could be used to
+                improve compression. Should be specified during decompression.
         '''
         if method != DEFLATED:
             raise error
-        self.raw = wbits < 0
         if abs(wbits) > MAX_WBITS or abs(wbits) < 5:
             raise ValueError
         self.crc = None
-        self.buf = bytearray()
         self.prehist = bytearray()
         self.closed = False
-        self.bit = 0
-        self.first = True
-        kwargs.pop('zdict', 0)  # not used
-        kwargs.pop('memLevel', 0)  # not used
-        self.opt = kwargs
         self.lastbyte = b''
+        self.bit = 0
+        if zdict:
+            self.buf = bytearray(zdict)
+            self.opt = {'numiterations': 1}
+            self.raw = True
+            self.flush(Z_SYNC_FLUSH)  # and omit result
+            self.zdict = adler32(zdict)
+        else:
+            self.zdict = False
+        self.buf = bytearray()
+        self.raw = wbits < 0
+        self.first = True
+        self.opt = kwargs
         if 'numiterations' not in self.opt:
             if level in levit:
                 self.opt['numiterations'] = levit[level]
@@ -117,11 +125,11 @@ class compressobj(object):
     def _header(self):
         cmf = 120
         flevel = 3
-        fdict = 0
+        fdict = bool(self.zdict)
         cmfflg = 256 * cmf + fdict * 32 + flevel * 64
         fcheck = 31 - cmfflg % 31
         cmfflg += fcheck
-        return pack('>H', cmfflg)
+        return pack('>H', cmfflg) + (pack('>L', self.zdict) if fdict else b'')
 
     def _updatecrc(self):
         if self.buf is None or self.raw:
