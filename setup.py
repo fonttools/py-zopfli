@@ -29,7 +29,8 @@ class custom_build_ext(build_ext):
 with open("README.rst", "r", encoding="utf-8") as readme:
     long_description = readme.read()
 
-prefer_system_zopfli = bool(os.environ.get('USE_SYSTEM_ZOPFLI'))
+prefer_system_zopfli = False
+# bool(os.environ.get('USE_SYSTEM_ZOPFLI'))
 if prefer_system_zopfli:
     zopfli_ext_kwargs = {
         'sources': [

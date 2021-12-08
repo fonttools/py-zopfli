@@ -9,6 +9,7 @@
 #define ZOPFLI_H "../zopfli/src/zopfli/zopfli.h"
 #endif
 #include ZOPFLI_H
+#include "../zopfli/src/zopfli/deflate.h"
 
 #if PY_MAJOR_VERSION >= 3
 #define PyInt_Check PyLong_Check
