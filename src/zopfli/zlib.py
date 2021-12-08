@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 import zopfli.zopfli
+from struct import pack
 from zlib import adler32
 from zlib import error
 # This is mostly for compatibility reasons
@@ -120,19 +121,7 @@ class compressobj(object):
         cmfflg = 256 * cmf + fdict * 32 + flevel * 64
         fcheck = 31 - cmfflg % 31
         cmfflg += fcheck
-
-        out = bytearray()
-        out.append(cmfflg // 256)
-        out.append(cmfflg % 256)
-        return out
-
-    def _tail(self):
-        out = bytearray()
-        out.append((self.crc >> 24) % 256)
-        out.append((self.crc >> 16) % 256)
-        out.append((self.crc >> 8) % 256)
-        out.append(self.crc % 256)
-        return out
+        return pack('>H', cmfflg)
 
     def _updatecrc(self):
         if self.buf is None or self.raw:
@@ -179,25 +168,23 @@ class compressobj(object):
             return b''
 
     def flush(self, mode=Z_FINISH):
-        def encodedalign(prev=None):
+        def encodedalign(prev):
             res = bytearray()
-            if prev:
-                z = bytearray(prev)
-            else:
-                z = bytearray()
+            z = bytearray(prev)
+            # Not final, type 00
             z.extend([0, 0, 0])
+            # if old tail + header cross byte border
             tgtlen = 8 if len(z) <= 8 else 16
+            # Fit to bytes
             addlen = tgtlen - len(z)
             z.extend((0,) * addlen)
+            # Add tail and header to result
             res.append(bitseq2int(z[:8]))
             if tgtlen == 16:
                 res.append(bitseq2int(z[8:]))
-            lbits = int2bitseq(0, 16)
-            res.append(bitseq2int(lbits[:8]))
-            res.append(bitseq2int(lbits[8:]))
-            nlbits = int2bitseq(65535, 16)
-            res.append(bitseq2int(nlbits[:8]))
-            res.append(bitseq2int(nlbits[8:]))
+            # zero length as we only want to align, no data
+            res.extend(pack('>H', 0))  # LEN
+            res.extend(pack('>H', 65535))  # NLEN
             return res
 
         if self.closed:
@@ -225,7 +212,7 @@ class compressobj(object):
                 self.prehist = bytearray()
 
         if not self.raw and mode == Z_FINISH:
-            out.extend(self._tail())
+            out.extend(pack('>L', self.crc))
         return bytes(out)
 
 
