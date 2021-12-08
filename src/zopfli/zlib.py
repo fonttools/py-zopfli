@@ -116,7 +116,7 @@ class compressobj(object):
 
     def _header(self):
         cmf = 120
-        flevel = 0
+        flevel = 3
         fdict = 0
         cmfflg = 256 * cmf + fdict * 32 + flevel * 64
         fcheck = 31 - cmfflg % 31
