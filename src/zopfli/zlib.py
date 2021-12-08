@@ -1,7 +1,6 @@
 from __future__ import absolute_import
 
 import zopfli.zopfli
-from zopfli.pureflate import int2bitseq, Block
 from zlib import adler32
 from zlib import error
 # This is mostly for compatibility reasons
@@ -59,6 +58,22 @@ levit = {-1: 15,
          9: 100
          }
 MASTER_BLOCK_SIZE = 20000000
+
+
+def int2bitseq(data, length):
+    res = []  # bytearray()
+    nowbyte = data
+    for _ in range(length):
+        (nowbyte, bit) = divmod(nowbyte, 2)
+        res.append(bit)
+    return res
+
+
+def bitseq2int(data):
+    res = 0
+    for bit in reversed(data):
+        res = bit + res * 2
+    return res
 
 
 class compressobj(object):
@@ -164,6 +179,27 @@ class compressobj(object):
             return b''
 
     def flush(self, mode=Z_FINISH):
+        def encodedalign(prev=None):
+            res = bytearray()
+            if prev:
+                z = bytearray(prev)
+            else:
+                z = bytearray()
+            z.extend([0, 0, 0])
+            tgtlen = 8 if len(z) <= 8 else 16
+            addlen = tgtlen - len(z)
+            z.extend((0,) * addlen)
+            res.append(bitseq2int(z[:8]))
+            if tgtlen == 16:
+                res.append(bitseq2int(z[8:]))
+            lbits = int2bitseq(0, 16)
+            res.append(bitseq2int(lbits[:8]))
+            res.append(bitseq2int(lbits[8:]))
+            nlbits = int2bitseq(65535, 16)
+            res.append(bitseq2int(nlbits[:8]))
+            res.append(bitseq2int(nlbits[8:]))
+            return res
+
         if self.closed:
             raise error
         out = bytearray()
@@ -176,13 +212,12 @@ class compressobj(object):
         out.extend(self._compress(mode == Z_FINISH))
         if mode != Z_FINISH:
             self.bit = self.bit % 8
-            # add void fixed block
+            # add void fixed block to align data to bytes
             if self.bit:
                 work = int2bitseq(self.lastbyte.pop(), 8)[:self.bit]
             else:
                 work = []
-            bl = Block()  # not final, not compressed, empty block is default
-            self.lastbyte.extend(bl.encodedbytes(work)[0])
+            self.lastbyte.extend(encodedalign(work))
             out.extend(self.lastbyte)
             self.lastbyte = b''
             self.bit = 0
