@@ -10,11 +10,6 @@
 #endif
 #include ZOPFLI_H
 
-#if PY_MAJOR_VERSION >= 3
-#define PyInt_Check PyLong_Check
-#define PyInt_AsLong PyLong_AsLong
-#endif
-
 static PyObject *
 zopfli_compress(PyObject *self, PyObject *args, PyObject *keywrds)
 {
@@ -83,7 +78,6 @@ static PyMethodDef ZopfliMethods[] = {
 PyDoc_STRVAR(zopfli__doc__,
 "Wrapper around zopfli's ZlibCompress and GzipCompress methods.");
 
-#if PY_MAJOR_VERSION >= 3
 #define INIT_ZOPFLI   PyInit_zopfli
 #define CREATE_ZOPFLI PyModule_Create(&zopfli_module)
 #define RETURN_ZOPFLI return m
@@ -98,11 +92,6 @@ static struct PyModuleDef zopfli_module = {
   NULL,
   NULL
 };
-#else
-#define INIT_ZOPFLI   initzopfli
-#define CREATE_ZOPFLI Py_InitModule3("zopfli", ZopfliMethods, zopfli__doc__)
-#define RETURN_ZOPFLI return
-#endif
 
 PyMODINIT_FUNC INIT_ZOPFLI(void) {
   PyObject *m = CREATE_ZOPFLI;

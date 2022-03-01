@@ -88,4 +88,5 @@ setup(
         "build_ext": custom_build_ext,
     },
     setup_requires=["setuptools_scm"],
+    python_requires=">=3.7",
 )
