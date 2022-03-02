@@ -35,7 +35,7 @@ if prefer_system_zopfli:
         'sources': [
             'src/zopflimodule.c',
         ],
-        'libraries': ['zopfli'],
+        'libraries': ['zopfli', 'zopflipng'],
         'define_macros': [('SYSTEM_ZOPFLI', '1')],
     }
 else:
@@ -53,6 +53,9 @@ else:
             'zopfli/src/zopfli/util.c',
             'zopfli/src/zopfli/zlib_container.c',
             'zopfli/src/zopfli/zopfli_lib.c',
+            'zopfli/src/zopflipng/lodepng/lodepng.cpp',
+            'zopfli/src/zopflipng/lodepng/lodepng_util.cpp',
+            'zopfli/src/zopflipng/zopflipng_lib.cc',
             'src/zopflimodule.c',
         ],
     }
@@ -88,5 +91,6 @@ setup(
         "build_ext": custom_build_ext,
     },
     setup_requires=["setuptools_scm"],
+    extras_require={"test": ["pytest"]},
     python_requires=">=3.7",
 )
