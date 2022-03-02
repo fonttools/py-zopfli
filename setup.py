@@ -91,5 +91,6 @@ setup(
         "build_ext": custom_build_ext,
     },
     setup_requires=["setuptools_scm"],
+    extras_require={"test": ["pytest"]},
     python_requires=">=3.7",
 )

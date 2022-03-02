@@ -7,5 +7,7 @@ include zopfli/COPYING
 include zopfli/CONTRIBUTORS
 include zopfli/CONTRIBUTING.md
 recursive-include zopfli/src/zopfli *.h
+recursive-include zopfli/src/zopflipng *.h
+recursive-include zopfli/src/zopflipng/lodepng *.h
 
 recursive-include tests *.py
