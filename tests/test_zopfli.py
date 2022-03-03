@@ -108,7 +108,8 @@ class TestPngOptimize:
             + [str(png_file), str(output_file)]
         )
         p = subprocess.run(cmd, check=True, capture_output=True)
-        assert "Result is smaller" in p.stdout.decode()
+        if "-v" in options:
+            assert "Result is smaller" in p.stdout.decode()
         assert output_file.exists()
         assert output_file.stat().st_size < png_file.stat().st_size
 
@@ -120,7 +121,7 @@ class TestPngOptimize:
         output_file = tmp_path / input_file.name
         shutil.copy(input_file, output_file)
         cmd = (
-            [sys.executable, "-m", "zopfli.png"]
+            [sys.executable, "-m", "zopfli.png", "-v"]
             + (["-y"] if overwrite else [])
             + [str(input_file), str(output_file)]
         )

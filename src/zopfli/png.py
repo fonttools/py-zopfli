@@ -11,7 +11,7 @@ def main(args=None):
     parser = argparse.ArgumentParser(prog="python -m zopfli.png")
     parser.add_argument("infile")
     parser.add_argument("outfile")
-    parser.add_argument("-v", "--verbose", action="store_true")
+    parser.add_argument("-v", "--verbose", action="store_true", help="print more info")
     parser.add_argument(
         "-m",
         action="store_true",
@@ -87,6 +87,8 @@ def main(args=None):
 
     options = parser.parse_args(args)
 
+    log = print if options.verbose else lambda *_: None
+
     if options.iterations is not None:
         num_iterations = num_iterations_large = options.iterations
     else:
@@ -99,7 +101,7 @@ def main(args=None):
     with open(options.infile, "rb") as f:
         input_png = f.read()
 
-    print("Optimizing {}".format(options.infile))
+    log(f"Optimizing {options.infile}")
 
     result_png = optimize(
         input_png,
@@ -114,33 +116,30 @@ def main(args=None):
     )
 
     input_size = len(input_png)
-    print("Input size: {} ({}K)".format(input_size, input_size // 1024))
+    log(f"Input size: {input_size} ({input_size // 1024}K)")
     result_size = len(result_png)
     percentage = round(result_size / input_size * 100, 3)
-    print(
-        "Result size: {} ({}K). Percentage of original: {}%".format(
-            result_size, result_size // 1024, percentage
-        )
+    log(
+        f"Result size: {result_size} ({result_size // 1024}K). "
+        f"Percentage of original: {percentage}%"
     )
 
     if result_size < input_size:
-        print("Result is smaller")
+        log("Result is smaller")
     elif result_size == input_size:
-        print("Result has exact same size")
+        log("Result has exact same size")
     else:
         if options.always_zopflify:
-            print("Original was smaller")
+            log("Original was smaller")
         else:
-            print("Preserving original PNG since it was smaller")
+            log("Preserving original PNG since it was smaller")
             # Set output file to input since zopfli didn't improve it.
             result_png = input_png
 
     if (
         not options.overwrite
         and os.path.isfile(options.outfile)
-        and input("File {} exists, overwrite? (y/N)\n".format(options.outfile))
-        .strip()
-        .lower()
+        and input(f"File {options.outfile} exists, overwrite? (y/N)\n").strip().lower()
         != "y"
     ):
         return 0
