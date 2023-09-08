@@ -6,7 +6,7 @@ PYZOPFLI
 cPython bindings for
 `zopfli <http://googledevelopers.blogspot.com/2013/02/compress-data-more-densely-with-zopfli.html>`__.
 
-It requires Python 3.7 or greater.
+It requires Python 3.8 or greater.
 
 USAGE
 =====
