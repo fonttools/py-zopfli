@@ -68,7 +68,7 @@ jobs:
           - os: ubuntu-latest
             arch: auto
             type: manylinux2014
-            build: "pp39-* pp310-* cp311-*"
+            build: "pp39-* pp310-* cp311-* cp312-*"
             CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
             CIBW_MANYLINUX_I686_IMAGE: manylinux2014
 
