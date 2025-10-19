@@ -75,7 +75,7 @@ setup(
     package_dir={"": "src"},
     packages=["zopfli"],
     zip_safe=True,
-    license='ASL',
+    license='Apache-2.0',
     include_package_data=True,
     classifiers=[
         'Intended Audience :: Developers',
