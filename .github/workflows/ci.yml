@@ -103,9 +103,9 @@ jobs:
     strategy:
       matrix:
         include:
-          # aarch64 CPython: build cp310 abi3 wheel, test on all versions
+          # aarch64 CPython: build cp310 abi3 wheel (no need to test on 3.11+ since already tested on x86_64)
           - name: "CPython abi3 on aarch64"
-            build: "cp310-* cp311-* cp312-* cp313-* cp314-*"
+            build: "cp310-*"
             arch: aarch64
           # aarch64 PyPy: build and test pp311
           - name: "PyPy 3.11 on aarch64"
