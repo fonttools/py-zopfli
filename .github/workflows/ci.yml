@@ -13,6 +13,7 @@ on:
 env:
   CIBW_TEST_EXTRAS: test
   CIBW_TEST_COMMAND: pytest {package}/tests -v
+  CIBW_SKIP: "cp38-* cp39-* pp38-*"
 
 jobs:
 
@@ -53,25 +54,11 @@ jobs:
         arch: [auto64]
         build: ["*"]
         include:
-          # the manylinux1 docker images only contain python3.8 and 3.9
-          - os: ubuntu-latest
-            type: manylinux1
-            arch: auto
-            build: "cp{38,39}-*"
-            CIBW_MANYLINUX_X86_64_IMAGE: manylinux1
-            CIBW_MANYLINUX_I686_IMAGE: manylinux1
-          # the manylinux2010 image also contains python 3.10 and pypy3.8
-          - os: ubuntu-latest
-            arch: auto
-            type: manylinux2010
-            build: "pp{38}-* cp310-*"
-            CIBW_MANYLINUX_X86_64_IMAGE: manylinux2010
-            CIBW_MANYLINUX_I686_IMAGE: manylinux2010
-          # the manylinux2014 image also contains python 3.11, 3.12, 3.13 and pypy3.9 and 3.10
+          # the manylinux2014 image contains python 3.10, 3.11, 3.12, 3.13, 3.14 and pypy3.9 and 3.10
           - os: ubuntu-latest
             arch: auto
             type: manylinux2014
-            build: "pp39-* pp310-* cp311-* cp312-* cp313-*"
+            build: "pp39-* pp310-* cp310-* cp311-* cp312-* cp313-* cp314-*"
             CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
             CIBW_MANYLINUX_I686_IMAGE: manylinux2014
 
@@ -111,13 +98,13 @@ jobs:
     strategy:
       matrix:
         # aarch64 uses qemu so it's slow, build each py version in parallel jobs
-        python: [38, 39, 310, 311, 312, 313]
+        python: [310, 311, 312, 313, 314]
         arch: [aarch64]
     steps:
     - uses: actions/checkout@v4
       with:
         submodules: true
-    - uses: docker/setup-qemu-action@v1.2.0
+    - uses: docker/setup-qemu-action@v3
       with:
         platforms: all
     - name: Install dependencies
@@ -144,7 +131,7 @@ jobs:
         path: dist
         merge-multiple: true
 
-    - uses: pypa/gh-action-pypi-publish@v1.4.2
+    - uses: pypa/gh-action-pypi-publish@v1.12.2
       with:
         user: __token__
         password: ${{ secrets.PYPI_PASSWORD }}
