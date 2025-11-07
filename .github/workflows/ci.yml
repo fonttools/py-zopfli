@@ -53,6 +53,7 @@ jobs:
         os: [macos-13, windows-latest]
         arch: [auto64]
         build: ["*"]
+        CIBW_ENABLE: [pypy]
         include:
           # the manylinux2014 image contains python 3.10, 3.11, 3.12, 3.13, 3.14 and pypy3.11
           - os: ubuntu-latest
