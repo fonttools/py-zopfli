@@ -1,6 +1,5 @@
 #define PY_SSIZE_T_CLEAN size_t
 #include <Python.h>
-#include <bytesobject.h>
 #include <stdlib.h>
 
 #ifdef SYSTEM_ZOPFLI
@@ -77,7 +76,17 @@ is_str(PyObject* v)
     if (PyUnicode_Check(v)) {
         return 1;
     }
-    PyErr_Format(PyExc_TypeError, "expected str, got '%.200s'", Py_TYPE(v)->tp_name);
+    // Get type name using stable ABI-compatible method
+    PyObject *type_obj = (PyObject *)Py_TYPE(v);
+    PyObject *type_name = PyObject_GetAttrString(type_obj, "__name__");
+    if (type_name && PyUnicode_Check(type_name)) {
+        PyErr_Format(PyExc_TypeError, "expected str, got '%U'", type_name);
+        Py_DECREF(type_name);
+    } else {
+        // Fallback if getting type name fails
+        PyErr_SetString(PyExc_TypeError, "expected str");
+        Py_XDECREF(type_name);
+    }
     return 0;
 }
 

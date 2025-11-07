@@ -5,3 +5,16 @@ requires = [
     "setuptools; platform_python_implementation != 'PyPy'",
 ]
 build-backend = "setuptools.build_meta"
+
+# Run abi3audit after the default repair commands to scan for abi3 violations
+# https://github.com/pypa/abi3audit
+# Only on Unix platforms (Linux/macOS) since Windows has no default repair command
+[[tool.cibuildwheel.overrides]]
+select = "cp*-{linux,macosx}*"
+inherit.repair-wheel-command = "append"
+repair-wheel-command = "pipx run abi3audit --strict --report {wheel}"
+
+# Disable Limited API for PyPy as it doesn't support stable ABI
+[[tool.cibuildwheel.overrides]]
+select = "pp*"
+environment = { USE_PY_LIMITED_API = "0" }
