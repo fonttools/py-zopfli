@@ -13,7 +13,8 @@ on:
 env:
   CIBW_TEST_EXTRAS: test
   CIBW_TEST_COMMAND: pytest {package}/tests -v
-  CIBW_SKIP: "cp38-* cp39-* cp314t-*"
+  # Skip old Python, free-threaded, and single-arch x86_64 macOS (universal2 covers both archs)
+  CIBW_SKIP: "cp38-* cp39-* cp314t-* cp*-macosx_x86_64"
 
 jobs:
 
