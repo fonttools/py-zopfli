@@ -1,6 +1,5 @@
 #define PY_SSIZE_T_CLEAN size_t
 #include <Python.h>
-#include <bytesobject.h>
 #include <stdlib.h>
 
 #ifdef SYSTEM_ZOPFLI
@@ -77,7 +76,7 @@ is_str(PyObject* v)
     if (PyUnicode_Check(v)) {
         return 1;
     }
-    PyErr_Format(PyExc_TypeError, "expected str, got '%.200s'", Py_TYPE(v)->tp_name);
+    PyErr_SetString(PyExc_TypeError, "expected str");
     return 0;
 }
 

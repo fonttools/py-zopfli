@@ -50,27 +50,29 @@ jobs:
       matrix:
         # macos-13 runners are still x86_64, macos-14 (latest) are arm64; we want to build
         # the x86_64 wheel on/for x86_64 macs
+        # Note: abi3 wheel is built once for cp310 but tested on all versions listed
         os: [macos-13, windows-latest]
         arch: [auto64]
-        build: ["*"]
+        build: ["cp310-* cp311-* cp312-* cp313-* cp314-* pp311-*"]
         CIBW_ENABLE: [pypy]
         include:
-          # the manylinux2014 image contains python 3.10, 3.11, 3.12, 3.13, 3.14 and pypy3.11
+          # manylinux2014: build cp310 abi3 wheel (works on 3.10+) and pypy3.11
+          # abi3 wheel is built once but tested on all cp versions listed
           - os: ubuntu-latest
             arch: auto
             type: manylinux2014
-            build: "pp311-* cp310-* cp311-* cp312-* cp313-* cp314-*"
+            build: "cp310-* cp311-* cp312-* cp313-* cp314-* pp311-*"
             CIBW_ENABLE: pypy
             CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
             CIBW_MANYLINUX_I686_IMAGE: manylinux2014
 
           - os: macos-latest
             arch: universal2
-            build: "*"
+            build: "cp310-* cp311-* cp312-* cp313-* cp314-*"
 
           - os: windows-latest
             arch: auto32
-            build: "*"
+            build: "cp310-* cp311-* cp312-* cp313-* cp314-*"
     steps:
     - uses: actions/checkout@v4
       with:
@@ -96,13 +98,20 @@ jobs:
 
 
   build_arch_wheels:
-    name: py${{ matrix.python }} on ${{ matrix.arch }}
+    name: ${{ matrix.name }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # aarch64 uses qemu so it's slow, build each py version in parallel jobs
-        python: ["cp310", "cp311", "cp312", "cp313", "cp314", "pp311"]
-        arch: [aarch64]
+        include:
+          # aarch64 CPython: build cp310 abi3 wheel, test on all versions
+          - name: "CPython abi3 on aarch64"
+            build: "cp310-* cp311-* cp312-* cp313-* cp314-*"
+            arch: aarch64
+          # aarch64 PyPy: build and test pp311
+          - name: "PyPy 3.11 on aarch64"
+            build: "pp311-*"
+            arch: aarch64
+            enable: pypy
     steps:
     - uses: actions/checkout@v4
       with:
@@ -115,13 +124,13 @@ jobs:
     - name: Build Wheels
       run: python -m cibuildwheel --output-dir wheelhouse .
       env:
-        CIBW_BUILD: ${{ matrix.python }}-*
-        CIBW_ENABLE: ${{ contains(matrix.python, 'pp') && 'pypy' || '' }}
+        CIBW_BUILD: ${{ matrix.build }}
+        CIBW_ENABLE: ${{ matrix.enable || '' }}
         CIBW_ARCHS: ${{ matrix.arch }}
     - uses: actions/upload-artifact@v4
       with:
         path: wheelhouse/*.whl
-        name: wheels-${{ matrix.arch }}-${{ matrix.python }}
+        name: wheels-${{ matrix.arch }}-${{ matrix.name }}
 
   deploy:
     name: Upload if release
