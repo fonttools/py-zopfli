@@ -80,9 +80,14 @@ setup(
     classifiers=[
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
-        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
+        'Programming Language :: Python :: 3.13',
+        'Programming Language :: Python :: 3.14',
         'Programming Language :: Python :: Implementation :: CPython',
+        'Programming Language :: Python :: Implementation :: PyPy',
         'Topic :: System :: Archiving :: Compression',
     ],
     url="https://github.com/fonttools/py-zopfli",
@@ -92,5 +97,5 @@ setup(
     },
     setup_requires=["setuptools_scm"],
     extras_require={"test": ["pytest"]},
-    python_requires=">=3.8",
+    python_requires=">=3.10",
 )
