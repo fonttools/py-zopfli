@@ -100,7 +100,7 @@ jobs:
     strategy:
       matrix:
         # aarch64 uses qemu so it's slow, build each py version in parallel jobs
-        python: [310, 311, 312, 313, 314]
+        python: ["cp310", "cp311", "cp312", "cp313", "cp314", "pp311"]
         arch: [aarch64]
     steps:
     - uses: actions/checkout@v4
@@ -114,7 +114,8 @@ jobs:
     - name: Build Wheels
       run: python -m cibuildwheel --output-dir wheelhouse .
       env:
-        CIBW_BUILD: cp${{ matrix.python }}-*
+        CIBW_BUILD: ${{ matrix.python }}-*
+        CIBW_ENABLE: ${{ contains(matrix.python, 'pp') && 'pypy' || '' }}
         CIBW_ARCHS: ${{ matrix.arch }}
     - uses: actions/upload-artifact@v4
       with:
