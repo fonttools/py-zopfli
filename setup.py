@@ -48,8 +48,7 @@ free_threaded_build = bool(sysconfig.get_config_var("Py_GIL_DISABLED"))
 # Set USE_PY_LIMITED_API=0 to turn it off.
 # https://docs.python.org/3/c-api/stable.html#limited-c-api
 use_py_limited_api = (
-    bool_from_environ("USE_PY_LIMITED_API", default=True)
-    and not free_threaded_build
+    bool_from_environ("USE_PY_LIMITED_API", default=True) and not free_threaded_build
 )
 # NOTE: hex versions must be kept in sync with python_requires='>=3.10' below
 limited_api_min_version = "0x030a0000"  # Python 3.10
