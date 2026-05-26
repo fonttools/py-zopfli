@@ -10,6 +10,7 @@ from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
 from io import open
 import os
+import sysconfig
 
 
 def bool_from_environ(key: str, default: bool = False):
@@ -37,11 +38,19 @@ class custom_build_ext(build_ext):
 with open("README.rst", "r", encoding="utf-8") as readme:
     long_description = readme.read()
 
+
+# The free-threaded build doesn't support the limited API until Python 3.15
+# but we can't set up abi3t support until setuptools adds support
+# see https://github.com/pypa/setuptools/issues/5205
+free_threaded_build = bool(sysconfig.get_config_var("Py_GIL_DISABLED"))
+
 # Python Limited API for stable ABI support is enabled by default.
 # Set USE_PY_LIMITED_API=0 to turn it off.
 # https://docs.python.org/3/c-api/stable.html#limited-c-api
-use_py_limited_api = bool_from_environ("USE_PY_LIMITED_API", default=True)
-# NOTE: this must be kept in sync with python_requires='>=3.10' below
+use_py_limited_api = (
+    bool_from_environ("USE_PY_LIMITED_API", default=True) and not free_threaded_build
+)
+# NOTE: hex versions must be kept in sync with python_requires='>=3.10' below
 limited_api_min_version = "0x030a0000"  # Python 3.10
 
 prefer_system_zopfli = bool(os.environ.get("USE_SYSTEM_ZOPFLI"))
